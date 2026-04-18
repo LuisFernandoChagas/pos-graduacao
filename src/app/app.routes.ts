@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./hello-world/hello-world.routes').then(m => m.helloWorldRoutes)
-  }
+    path: 'loja/produtos',
+    loadChildren: () => import('./loja/produto/produto.routes').then(m => m.produtoRoutes),
+  },
 ];

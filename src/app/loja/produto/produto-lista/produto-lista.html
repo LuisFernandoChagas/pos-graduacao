@@ -1,0 +1,33 @@
+<div class="container">
+    <h1><i class="bi bi-currency-dollar"></i>Lojinha da unidade</h1>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>produto</th>
+                <th>Preço Unitário</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (produto of produtos; track produto.id) {
+                <tr>
+                    <td><img [src]="produto.imagem" alt="{{produto.nome}}" width="200"></td>
+                    <td>{{ produto.nome }}</td>
+                    <td>{{ produto.preco | currency:'BRL' }}</td>
+                    <td>
+                        <span class="badge bg-danger"><i class="bi bi-dash"></i> </span> {{ produto.quantidade }} <span class="badge bg-success"><i class="bi bi-plus"></i> </span>
+                    </td>
+                    <td>{{ produto.preco * produto.quantidade | currency:'BRL' }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <footer class="text-center">
+        <span> <i class="bi bi-cart-check"></i> Subtotal: {{ subtotal | currency:'BRL' }}</span>
+    </footer>
+
+</div>
