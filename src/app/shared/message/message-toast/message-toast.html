@@ -1,0 +1,13 @@
+@if (message) {
+  <div class="toast" [ngClass]="['toast-' + message.type]">
+    <div class="toast-content">
+      <i class="bi" [class]="getIcon()"></i>
+      <div class="toast-text">
+        <strong>{{ message.title }}</strong>
+        @if (message.message) {
+          <p>{{ message.message }}</p>
+        }
+      </div>
+    </div>
+  </div>
+}

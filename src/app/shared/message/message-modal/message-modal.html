@@ -1,0 +1,26 @@
+@if (message) {
+  <div class="modal-overlay" (click)="close()">
+    <div class="modal-content" [ngClass]="['modal-' + message.type]" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="close()" aria-label="Fechar modal">
+        <i class="bi bi-x"></i>
+      </button>
+
+      <div class="modal-header">
+        <i class="bi" [class]="getIcon()"></i>
+        <h2>{{ message.title }}</h2>
+      </div>
+
+      @if (message.message) {
+        <div class="modal-body">
+          <p>{{ message.message }}</p>
+        </div>
+      }
+
+      <div class="modal-footer">
+        <button [class]="'btn ' + getButtonClass()" (click)="close()">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+}

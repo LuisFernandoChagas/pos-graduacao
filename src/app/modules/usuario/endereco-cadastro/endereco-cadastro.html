@@ -1,0 +1,118 @@
+<div class="container">
+  <header class="header">
+    <h1>Cadastro de Endereço</h1>
+    <p>Informe os dados de entrega para completar seu cadastro.</p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+    <div class="form-grid">
+      <div class="field-group">
+        <label for="cep">CEP</label>
+        <input id="cep" type="text" formControlName="cep" placeholder="00000-000" />
+        @if (f.cep.touched && f.cep.invalid) {
+          <span class="error">
+            CEP inválido. Use formato 00000-000.
+          </span>
+        }
+      </div>
+
+      <app-searchable-select
+        id="tipoEndereco"
+        label="Tipo de endereço"
+        placeholder="Buscar tipo de endereço..."
+        [options]="tiposEndereco"
+        [selectedValue]="tipoEnderecValue"
+        (selectedChange)="onTipoEnderecChange($event)"
+      ></app-searchable-select>
+
+      <div class="field-group full-width">
+        <label for="logradouro">Logradouro</label>
+        <input id="logradouro" type="text" formControlName="logradouro" placeholder="Rua, Avenida, Travessa..." />
+        @if (f.logradouro.touched && f.logradouro.invalid) {
+          <span class="error">
+            Preencha o logradouro.
+          </span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="numero">Número</label>
+        <input id="numero" type="text" formControlName="numero" placeholder="123" />
+        @if (f.numero.touched && f.numero.invalid) {
+          <span class="error">
+            Preencha o número.
+          </span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="complemento">Complemento</label>
+        <input id="complemento" type="text" formControlName="complemento" placeholder="Apto, Bloco, Casa..." />
+      </div>
+
+      <div class="field-group">
+        <label for="bairro">Bairro</label>
+        <input id="bairro" type="text" formControlName="bairro" placeholder="Bairro" />
+        @if (f.bairro.touched && f.bairro.invalid) {
+          <span class="error">
+            Preencha o bairro.
+          </span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="cidade">Cidade</label>
+        <input id="cidade" type="text" formControlName="cidade" placeholder="Cidade" />
+        @if (f.cidade.touched && f.cidade.invalid) {
+          <span class="error">
+            Preencha a cidade.
+          </span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="estado">Estado</label>
+        <input id="estado" type="text" formControlName="estado" placeholder="UF" maxlength="2" />
+        @if (f.estado.touched && f.estado.invalid) {
+          <span class="error">
+            Preencha o estado com 2 caracteres.
+          </span>
+        }
+      </div>
+
+      <div class="field-group full-width">
+        <label for="referencia">Ponto de referência</label>
+        <input id="referencia" type="text" formControlName="referencia" placeholder="Próximo a..." />
+      </div>
+
+      <div class="field-group full-width">
+        <label for="observacoes">Observações</label>
+        <textarea id="observacoes" rows="4" formControlName="observacoes" placeholder="Ex.: tocar campainha duas vezes"></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-primary">Salvar endereço</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="limpar()">Limpar formulário</button>
+    </div>
+  </form>
+
+  @if (form.valid) {
+    <section class="summary">
+      <h2>Resumo do endereço</h2>
+      <p><strong>CEP:</strong> {{ form.value.cep }}</p>
+      <p><strong>Logradouro:</strong> {{ form.value.logradouro }}, {{ form.value.numero }}</p>
+      @if (form.value.complemento) {
+        <p><strong>Complemento:</strong> {{ form.value.complemento }}</p>
+      }
+      <p><strong>Bairro:</strong> {{ form.value.bairro }}</p>
+      <p><strong>Cidade / Estado:</strong> {{ form.value.cidade }} / {{ form.value.estado }}</p>
+      @if (form.value.referencia) {
+        <p><strong>Referência:</strong> {{ form.value.referencia }}</p>
+      }
+      @if (form.value.observacoes) {
+        <p><strong>Observações:</strong> {{ form.value.observacoes }}</p>
+      }
+    </section>
+  }
+</div>

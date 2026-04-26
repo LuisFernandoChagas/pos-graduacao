@@ -1,0 +1,31 @@
+<div class="field-group">
+  <label [for]="id">{{ label }}</label>
+  <div class="search-select">
+    <input
+      [id]="id"
+      type="text"
+      [value]="busca"
+      (input)="onBusca($any($event.target).value)"
+      (focus)="mostrarDropdown = true"
+      (blur)="fecharDropdown()"
+      [placeholder]="placeholder"
+    />
+    @if (mostrarDropdown && opcoesFiltradas.length > 0) {
+      <div class="dropdown">
+        @for (opcao of opcoesFiltradas; track opcao.value) {
+          <div
+            class="dropdown-item"
+            (click)="selecionarOpcao(opcao)"
+          >
+            {{ opcao.label }}
+          </div>
+        }
+      </div>
+    }
+    @if (mostrarDropdown && opcoesFiltradas.length === 0) {
+      <div class="dropdown no-results">
+        Nenhum resultado encontrado
+      </div>
+    }
+  </div>
+</div>
