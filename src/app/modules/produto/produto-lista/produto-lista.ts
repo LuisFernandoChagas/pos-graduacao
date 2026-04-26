@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-produto-lista',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './produto-lista.html',
   styleUrl: './produto-lista.scss',
 })

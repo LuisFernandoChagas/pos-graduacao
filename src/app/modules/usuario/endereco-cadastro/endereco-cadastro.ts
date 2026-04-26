@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SearchableSelect, SelectOption } from '../../../shared/searchable-select/searchable-select';
 import { MessageService } from '../../../shared/message/message.service';
+import { CepService } from '../../../services/cep.service';
 
 @Component({
   selector: 'app-endereco-cadastro',
@@ -20,16 +21,17 @@ export class EnderecoCadastro {
 
     constructor(
         private fb: FormBuilder,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private cepService: CepService
     ) {
         this.form = this.fb.group({
             cep: ['', [Validators.required, Validators.pattern(/^\d{5}-?\d{3}$/)]],
             logradouro: ['', Validators.required],
-            numero: ['', Validators.required],
+            numero: [''],
             complemento: [''],
             bairro: ['', Validators.required],
             cidade: ['', Validators.required],
-            estado: ['', [Validators.required, Validators.maxLength(2)]],
+            uf: ['', [Validators.required, Validators.maxLength(2)]],
             referencia: [''],
             tipoEndereco: ['', Validators.required],
             observacoes: [''],
@@ -59,10 +61,34 @@ export class EnderecoCadastro {
         }
 
         this.messageService.showSuccess('Endereço salvo com sucesso!', 'Os dados de entrega foram gravados.');
+        console.log('Dados do endereço:', this.form.value);
         this.limpar();
     }
 
     limpar() {
         this.form.reset({ tipoEndereco: '' });
+    }
+
+    buscarCep(input: string) {
+        const cep = input.replace(/\D/g, '');
+        if (cep.length === 8) {
+            this.cepService.recuperaCep(cep).subscribe({
+                next: (data: any) => {
+                    if (data.erro) {
+                        this.messageService.showError('CEP não encontrado', 'O CEP informado não foi encontrado.');
+                    } else {
+                        this.form.patchValue({
+                            logradouro: data.logradouro,
+                            bairro: data.bairro,
+                            cidade: data.localidade,
+                            uf: data.uf,
+                            complemento: data.complemento,
+                        });
+                    }
+                }
+            });
+        } else {
+            return;
+        }
     }
 }
